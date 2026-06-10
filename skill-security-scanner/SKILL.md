@@ -36,7 +36,7 @@ java -jar C:\path\to\skill-security-scanner\bin\skillguard.jar ...
 
 本 Skill 支持三类稳定工作流：
 
-1. 静态扫描：直接扫描目标 `skills` 目录并输出报告。
+1. 静态扫描：直接扫描目标 `skills` 目录并输出报告。用户未明确指定“维护者版本”“维护员版本”“复核版本”时，一律默认生成普通用户版本报告。
 2. 动态测试计划：为目标 Skill 生成动态安全测试 Prompt 包。
 3. 动态结果分析：在用户或 devagent 已提供对话记录后，生成动态复核报告。
 
@@ -67,10 +67,25 @@ java -jar C:\path\to\skill-security-scanner\bin\skillguard.jar ...
 
 ## 静态扫描
 
-当用户要求扫描某个 `skills` 目录时，运行：
+当用户要求扫描某个 `skills` 目录时，默认生成普通用户版本 HTML 报告。只要用户没有明确要求维护者/复核视图，就不要追加 `--review`：
 
 ```powershell
-java -jar bin\skillguard.jar scan <skills目录> --format html --output reports\static-report.html
+java -jar bin\skillguard.jar scan <skills目录> --format html --output reports\static-report-user.html
+```
+
+当用户要求“维护者版本”“维护员版本”“复核版本”或需要误报治理、人工复核视图时，生成维护者复核 HTML 报告，必须追加 `--review`：
+
+```powershell
+java -jar bin\skillguard.jar scan <skills目录> --format html --output reports\static-report-review.html --review
+```
+
+如果用户同时要求普通用户版本和维护者版本，应分别运行上述两条命令，避免两个报告互相覆盖。普通用户版本适合交给 Skill 使用者、负责人或评审人员查看；维护者复核版本适合扫描器维护者或安全测试负责人查看 raw/final/过滤统计、复核状态和误报治理信息。
+
+如需 JSON 或 PDF，将 `--format` 和 `--output` 替换为对应格式，例如：
+
+```powershell
+java -jar bin\skillguard.jar scan <skills目录> --format json --output reports\static-report-user.json
+java -jar bin\skillguard.jar scan <skills目录> --format pdf --output reports\static-report-user.pdf
 ```
 
 可选格式：
