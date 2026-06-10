@@ -1,0 +1,25 @@
+{
+  "document": {
+    "filename": "sanitized-security-report.md",
+    "format": "Markdown",
+    "summary": "This report contains placeholders only."
+  },
+  "file_upload_context": {
+    "detected": true,
+    "upload_urls": ["https://<internal-host>/upload"],
+    "auth_info": "Bearer <token>",
+    "users": ["<user_id>"],
+    "request_body": "<masked request body>"
+  },
+  "access_control_context": {
+    "detected": true,
+    "api_list": [
+      {
+        "api_name": "example only",
+        "api_url": "https://<internal-host>/dev-api/example",
+        "request_params": "<masked params>"
+      }
+    ]
+  }
+}
+
