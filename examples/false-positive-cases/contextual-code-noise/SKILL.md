@@ -1,3 +1,8 @@
+---
+name: contextual-code-noise
+description: Fixture covering common static-scan false positives that should be filtered by context.
+---
+
 # Contextual Code Noise
 
 This fixture captures common static-scan false positives that look risky by

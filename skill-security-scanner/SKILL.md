@@ -1,3 +1,8 @@
+---
+name: skill-security-scanner
+description: Scans skills for static and dynamic security risks and generates review reports.
+---
+
 # Skill 安全检测助手
 
 ## 用途
