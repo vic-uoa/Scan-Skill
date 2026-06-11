@@ -157,7 +157,7 @@
                 <div class="slide-copy">
                   <span class="cap-index">05</span>
                   <h3>报告与准入</h3>
-                  <p>输出 HTML、PDF、JSON，区分用户报告、维护者复核报告和 AI 整改报告。准入结论聚合为 PASS、WARNINGS、NEEDS_REVIEW 或 BLOCKED。</p>
+                  <p>输出 HTML、PDF、JSON，区分用户报告、维护者复核报告和 AI 整改报告。准入结论聚合为通过、带提醒通过、需要复核或阻断。</p>
                 </div>
                 <div class="report-pipeline" aria-label="报告链路">
                   <span>scan</span><i></i><span>score</span><i></i><span>report</span><i></i><span>admission</span>
@@ -180,8 +180,15 @@
               <input type="file" id="folderPicker" webkitdirectory directory multiple>
               <span class="drop-icon" aria-hidden="true"></span>
               <strong>拖拽文件夹到这里，或选择本地目录</strong>
-              <small>静态阶段会展示模拟文件树；接入后先校验是否存在 SKILL.md。</small>
+              <small>选择后自动生成文件树，并上传到服务端临时扫描工作区。</small>
             </label>
+            <div class="local-path-panel">
+              <label for="localPathInput">当前扫描对象</label>
+              <div class="path-control">
+                <input id="localPathInput" type="text" value="" placeholder="上传文件夹后自动生成扫描工作区" readonly>
+              </div>
+              <small id="backendStatus">启动 Portal 服务后，选择目录会上传到临时扫描工作区。</small>
+            </div>
             <div class="tree-preview" aria-label="文件结构预览">
               <div class="tree-row root">skills/customer-risk-check</div>
               <div class="tree-row child required">SKILL.md</div>
@@ -232,9 +239,9 @@
               <strong>扫描完成：发现 3 个阻断项，2 个需复核项</strong>
               <div>
                 <a href="#report" data-route-jump="report">进入报告页</a>
-                <a href="../reports/static-report-user.html">下载 HTML 报告</a>
-                <a href="#">下载 PDF</a>
-                <a href="#">下载 JSON</a>
+                <a href="../reports/static-report-user.html" id="downloadHtml">下载 HTML 报告</a>
+                <a href="#" id="downloadPdf">下载 PDF</a>
+                <a href="#" id="downloadJson">下载 JSON</a>
               </div>
             </div>
           </div>
@@ -244,7 +251,7 @@
       <main class="page page-report is-hidden" id="reportPage">
         <section class="report-hero">
           <div>
-            <p class="system-label">Report preview</p>
+            <p class="system-label">报告预览</p>
             <h2>扫描报告完成态</h2>
             <p>这里保持初始预览态，只展示报告生成后的大致状态。真实扫描完成后，可从完成态直接打开或下载生成的 HTML / PDF / JSON 报告。</p>
           </div>
@@ -256,7 +263,7 @@
         <section class="report-grid">
           <article>
             <span class="metric-label">整体风险</span>
-            <strong class="risk-text high">HIGH</strong>
+            <strong class="risk-text high">高危</strong>
           </article>
           <article>
             <span class="metric-label">问题数量</span>
@@ -286,7 +293,7 @@
           </div>
         </section>
         <div class="action-row report-actions">
-          <a class="primary-link scan-action" href="../reports/static-report-user.html"><span class="btn-icon report-icon" aria-hidden="true"></span>打开生成的 HTML 报告</a>
+          <a class="primary-link scan-action" id="openGeneratedReport" href="../reports/static-report-user.html" target="_blank" rel="noopener noreferrer"><span class="btn-icon report-icon" aria-hidden="true"></span>打开生成的 HTML 报告</a>
           <a class="secondary-link utility-action" href="#home" data-route-jump="home">返回扫描门户</a>
         </div>
       </main>
@@ -305,23 +312,23 @@
       <div class="dialog-grid">
         <label>
           <span>模型配置链接</span>
-          <input type="url" value="https://api.openai.com/v1/chat/completions">
+          <input id="aiEndpoint" type="url" value="https://api.openai.com/v1/chat/completions">
         </label>
         <label>
           <span>模型名称</span>
-          <input type="text" value="gpt-4.1-mini">
+          <input id="aiModel" type="text" value="gpt-4.1-mini">
         </label>
         <label>
           <span>API Key</span>
-          <input type="password" value="local-browser-only">
+          <input id="aiApiKey" type="password" value="">
         </label>
         <label>
           <span>Temperature</span>
-          <input type="number" min="0" max="2" step="0.1" value="0.2">
+          <input id="aiTemperature" type="number" min="0" max="2" step="0.1" value="0.2">
         </label>
         <label>
           <span>Max tokens</span>
-          <input type="number" min="100" step="50" value="900">
+          <input id="aiMaxTokens" type="number" min="100" step="50" value="900">
         </label>
         <label>
           <span>Batch size</span>
@@ -330,17 +337,18 @@
       </div>
       <label class="full-field">
         <span>组织约束</span>
-        <textarea rows="3">禁止连接生产环境；所有报告必须脱敏；修复示例必须使用测试环境变量、mock 服务或沙箱配置。</textarea>
+        <textarea id="aiPolicy" rows="3">禁止连接生产环境；所有报告必须脱敏；修复示例必须使用测试环境变量、mock 服务或沙箱配置。</textarea>
       </label>
       <label class="full-field">
         <span>可选请求体 JSON</span>
-        <textarea rows="4" placeholder='{"top_p":0.8,"response_format":{"type":"text"}}'></textarea>
+        <textarea id="aiRequestBody" rows="4" placeholder='{"top_p":0.8,"response_format":{"type":"text"}}'></textarea>
       </label>
       <div class="switch-row">
-        <label><input type="checkbox" checked> 扫描前测试连接</label>
-        <label><input type="checkbox" checked> 保存到本地配置</label>
-        <label><input type="checkbox"> 仅生成建议，不写入报告</label>
+        <label><input id="aiTestConnection" type="checkbox" checked> 扫描前测试连接</label>
+        <label><input id="aiSaveLocal" type="checkbox" checked> 保存到本地配置</label>
+        <label><input id="aiSuggestOnly" type="checkbox"> 仅生成建议，不写入报告</label>
       </div>
+      <p class="dialog-status" id="aiDialogStatus">保存配置后会按开关执行模型连接测试。</p>
       <div class="dialog-actions">
         <button class="secondary-action utility-action" value="cancel">取消</button>
         <button class="primary-action scan-action" value="default"><span class="btn-icon tune-icon" aria-hidden="true"></span>测试连接并保存</button>

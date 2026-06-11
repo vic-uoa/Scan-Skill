@@ -1,0 +1,95 @@
+{
+  "schema_version": "skillguard-static-report/v2",
+  "scan_mode": "static",
+  "root": "C:\\Users\\vic\\Desktop\\Scan-Skill-Clean\\build\\portal-uploads\\20260611-142746-f5f15737\\skills",
+  "skills_scanned": 1,
+  "files_scanned": 0,
+  "files_skipped": 3,
+  "directories_skipped": 0,
+  "total_findings": 1,
+  "raw_findings_count": 1,
+  "final_findings_count": 1,
+  "filtered_findings_count": 0,
+  "risk_level": "low",
+  "admission": {
+    "decision": "PASS_WITH_WARNINGS",
+    "reason": "未发现阻断问题，但存在低风险或治理提醒。",
+    "blocking_findings": 0,
+    "manual_review_findings": 0
+  },
+  "decision_counts": {
+    "low_risk_notice": 1
+  },
+  "false_positive_counts": {
+  },
+  "skills": [
+    {
+      "name": "loan-approval-risk",
+      "path": "C:\\Users\\vic\\Desktop\\Scan-Skill-Clean\\build\\portal-uploads\\20260611-142746-f5f15737\\skills\\loan-approval-risk",
+      "entry_file": "loan-approval-risk/SKILL.md",
+      "scan_scope": "STANDARD_SKILL",
+      "risk_level": "low",
+      "score": 91,
+      "safety_score": 98,
+      "structure_score": 85,
+      "test_fitness_score": 80,
+      "files_scanned": 0,
+      "files_skipped": 3,
+      "directories_skipped": 0,
+      "unsupported_files_skipped": 3,
+      "raw_findings_count": 1,
+      "final_findings_count": 1,
+      "filtered_findings_count": 0,
+      "admission": {
+        "decision": "PASS_WITH_WARNINGS",
+        "reason": "仅存在低风险治理提醒或非阻断问题。",
+        "blocking_findings": 0,
+        "manual_review_findings": 0
+      },
+      "decision_counts": {
+        "low_risk_notice": 1
+      },
+      "false_positive_counts": {
+      },
+      "findings": [
+        {
+          "rule_id": "META005",
+          "category": "skill_governance",
+          "severity": "low",
+          "file": "loan-approval-risk/SKILL.md",
+          "line": 0,
+          "message": "SKILL.md 缺少负责人、版本或变更记录",
+          "evidence": "SKILL.md",
+          "recommendation": "团队共享 Skill 应标明负责人、维护人、版本和变更记录，便于审计追踪。\n场景化建议: 作为治理提醒处理，优先补充边界、验证、回滚和负责人信息，不按漏洞阻断。",
+          "remediation": {
+            "priority_action": "团队共享 Skill 应标明负责人、维护人、版本和变更记录，便于审计追踪。",
+            "contextual_advice": "作为治理提醒处理，优先补充边界、验证、回滚和负责人信息，不按漏洞阻断。",
+            "example": "",
+            "family": "Skill 治理、规范补齐与可审计说明",
+            "admission_policy": "提醒项：不阻断准入，作为治理或规范优化建议。"
+          },
+          "rule_domain": "Agent Skill 治理",
+          "evidence_gate": "需要 SKILL.md 缺少治理字段或文档行为不一致；默认作为治理提醒。",
+          "false_positive_type": "",
+          "recommendation_family": "Skill 治理、规范补齐与可审计说明",
+          "admission_policy": "提醒项：不阻断准入，作为治理或规范优化建议。",
+          "norm_source": "SkillGuard 内置规则",
+          "evidence_type": "regex",
+          "review_status": "probable",
+          "file_role": "SKILL_INSTRUCTION",
+          "decision": "low_risk_notice",
+          "decision_reason": "kept_governance_gap",
+          "context_excerpt": "",
+          "why_matched": "governance checklist check",
+          "why_kept": "低风险治理提醒，不作为漏洞阻断。",
+          "statement_type": "synthetic",
+          "evidence_summary": "低风险治理提醒，不作为漏洞阻断。",
+          "scan_mode": "static",
+          "blocking": 0,
+          "manual_review": 0,
+          "confidence": 0.72
+        }
+      ]
+    }
+  ]
+}

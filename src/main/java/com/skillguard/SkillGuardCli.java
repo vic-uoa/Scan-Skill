@@ -22,6 +22,9 @@ public final class SkillGuardCli {
             printHelp();
             return 0;
         }
+        if (args[0].equals("portal")) {
+            return PortalServer.run(slice(args, 1));
+        }
         if (!args[0].equals("scan") && !args[0].equals("dynamic-plan") && !args[0].equals("dynamic-report")) {
             System.err.println("未知命令: " + args[0]);
             printHelp();
@@ -222,11 +225,21 @@ public final class SkillGuardCli {
         return index + 1 < args.length && !args[index + 1].startsWith("-");
     }
 
+    private static String[] slice(String[] args, int start) {
+        if (start >= args.length) {
+            return new String[0];
+        }
+        String[] out = new String[args.length - start];
+        System.arraycopy(args, start, out, 0, out.length);
+        return out;
+    }
+
     private static void printHelp() {
         System.out.println(
                 "SkillGuard - Agent Skill 安全扫描工具\n\n"
                         + "用法:\n"
-                        + "  java -jar dist/skillguard.jar scan [path] [options]\n\n"
+                        + "  java -jar dist/skillguard.jar scan [path] [options]\n"
+                        + "  java -jar dist/skillguard.jar portal [--host 127.0.0.1] [--port 8765]\n\n"
                         + "动态扫描:\n"
                         + "  java -jar dist/skillguard.jar scan [skill-path] --mode dynamic-plan --format html -o dynamic-plan.html\n"
                         + "  java -jar dist/skillguard.jar scan [transcript.txt] --mode dynamic-report --skill skillName --format html -o dynamic-report.html\n"

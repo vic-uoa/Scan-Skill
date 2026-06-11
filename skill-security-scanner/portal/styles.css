@@ -1128,6 +1128,50 @@ a:focus-visible {
   opacity: 0;
 }
 
+.local-path-panel {
+  margin: 0 0 18px;
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+  border: 1px solid oklch(0.83 0.032 230);
+  border-radius: 12px;
+  background:
+    linear-gradient(135deg, oklch(0.98 0.006 225), oklch(0.94 0.018 218));
+}
+
+.local-path-panel label {
+  color: var(--primary-strong);
+  font-weight: 850;
+  font-size: 0.88rem;
+}
+
+.path-control {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+}
+
+.path-control input {
+  min-height: 44px;
+  border: 1px solid oklch(0.78 0.044 230);
+  border-radius: 10px;
+  padding: 0 14px;
+  background: oklch(1 0 0 / 0.92);
+  color: var(--ink);
+  font-family: "Cascadia Mono", Consolas, monospace;
+  font-weight: 700;
+}
+
+.local-path-panel small {
+  color: var(--muted);
+  font-weight: 650;
+}
+
+.local-path-panel small.is-online {
+  color: oklch(0.42 0.13 155);
+}
+
 .drop-icon {
   width: 38px;
   height: 38px;
@@ -1161,7 +1205,7 @@ a:focus-visible {
 }
 
 .tree-row.child {
-  margin-left: 20px;
+  margin-left: calc(20px + var(--depth, 0) * 10px);
   color: var(--muted);
 }
 
@@ -1440,6 +1484,35 @@ a:focus-visible {
   width: auto;
 }
 
+.dialog-status {
+  margin: 14px 0 0;
+  padding: 11px 13px;
+  border: 1px solid oklch(0.82 0.026 230);
+  border-radius: 10px;
+  background: oklch(0.97 0.008 230);
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 750;
+}
+
+.dialog-status.is-busy {
+  border-color: oklch(0.72 0.13 230);
+  background: oklch(0.94 0.032 230);
+  color: var(--primary-strong);
+}
+
+.dialog-status.is-ok {
+  border-color: oklch(0.74 0.12 155);
+  background: oklch(0.95 0.045 155);
+  color: oklch(0.36 0.13 155);
+}
+
+.dialog-status.is-error {
+  border-color: oklch(0.72 0.14 28);
+  background: oklch(0.96 0.036 28);
+  color: oklch(0.42 0.15 28);
+}
+
 .dialog-actions {
   display: flex;
   justify-content: flex-end;
@@ -1648,5 +1721,431 @@ a:focus-visible {
     transition-duration: 0.001ms !important;
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
+  }
+}
+
+/* Product Design refresh: keep existing behavior, lift the surface craft. */
+body {
+  background:
+    linear-gradient(140deg, oklch(0.975 0.01 225), oklch(0.935 0.024 218) 55%, oklch(0.965 0.016 185));
+}
+
+.app-shell {
+  background:
+    linear-gradient(120deg, oklch(0.965 0.014 225), oklch(0.935 0.027 215));
+}
+
+.side-nav {
+  background:
+    linear-gradient(180deg, oklch(0.2 0.04 250), oklch(0.16 0.032 258));
+  border-right: 1px solid oklch(0.62 0.08 220 / 0.18);
+}
+
+.nav-brand {
+  padding-bottom: 18px;
+  border-bottom: 1px solid oklch(1 0 0 / 0.1);
+}
+
+.nav-link {
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  border: 1px solid transparent;
+  color: oklch(0.86 0.018 238);
+}
+
+.nav-link.is-active {
+  border-color: oklch(0.78 0.1 205 / 0.24);
+  background:
+    linear-gradient(90deg, oklch(0.34 0.08 224 / 0.78), oklch(0.24 0.052 246 / 0.72));
+  box-shadow: inset 0 1px 0 oklch(1 0 0 / 0.08);
+}
+
+.topbar {
+  background:
+    linear-gradient(180deg, oklch(0.99 0.004 226), oklch(0.965 0.012 220));
+  border-bottom-color: oklch(0.82 0.026 230);
+}
+
+.page {
+  background:
+    radial-gradient(ellipse at 50% -20%, oklch(0.86 0.07 205 / 0.42), transparent 42%),
+    linear-gradient(120deg, oklch(0.98 0.008 225), oklch(0.94 0.02 215));
+}
+
+.capability-browser-rich {
+  border-radius: 14px;
+  border-color: oklch(0.75 0.12 198 / 0.3);
+  box-shadow:
+    0 22px 48px oklch(0.2 0.05 245 / 0.22),
+    inset 0 1px 0 oklch(1 0 0 / 0.08);
+}
+
+.capability-browser-rich::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    linear-gradient(90deg, oklch(0.8 0.14 190 / 0.18), transparent 24%, transparent 76%, oklch(0.7 0.16 292 / 0.12)),
+    linear-gradient(180deg, oklch(1 0 0 / 0.08), transparent 26%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.capability-header,
+.capability-tabs,
+.rich-stage {
+  position: relative;
+  z-index: 1;
+}
+
+.capability-header {
+  padding: 26px 28px 20px;
+}
+
+.capability-header h2 {
+  font-size: 30px;
+  letter-spacing: 0;
+}
+
+.capability-hud {
+  width: min(520px, 46%);
+}
+
+.capability-command,
+.capability-metrics div {
+  border-color: oklch(0.78 0.12 196 / 0.3);
+  background:
+    linear-gradient(180deg, oklch(0.14 0.035 248 / 0.88), oklch(0.18 0.05 238 / 0.82));
+}
+
+.capability-metrics strong {
+  font-size: 22px;
+}
+
+.cap-tab {
+  min-height: 50px;
+  font-size: 15px;
+}
+
+.cap-tab.is-active {
+  box-shadow: inset 0 -2px 0 oklch(0.82 0.16 190);
+}
+
+.rich-stage {
+  min-height: 470px;
+}
+
+.rich-stage::before {
+  z-index: 0;
+}
+
+.scan-radar {
+  right: 48px;
+  top: 86px;
+  width: 340px;
+  height: 340px;
+  opacity: 0.95;
+}
+
+.scan-radar::before {
+  inset: 54px;
+}
+
+.scan-radar::after {
+  inset: 108px;
+}
+
+.rich-slide {
+  inset: 30px;
+  padding-right: 390px;
+}
+
+.slide-copy {
+  max-width: 520px;
+}
+
+.slide-copy h3 {
+  font-size: 30px;
+}
+
+.rule-grid,
+.evidence-stack,
+.matrix-panel,
+.model-panel,
+.report-pipeline {
+  border-radius: 14px;
+  border-color: oklch(0.78 0.13 196 / 0.34);
+  background:
+    linear-gradient(180deg, oklch(0.15 0.035 247 / 0.92), oklch(0.12 0.03 252 / 0.9));
+}
+
+.rule-grid {
+  gap: 12px;
+}
+
+.rule-grid span {
+  min-height: 46px;
+  border-radius: 9px;
+}
+
+.upload-panel,
+.scan-panel,
+.report-hero,
+.finding-table {
+  border-radius: 14px;
+  border-color: oklch(0.82 0.028 230);
+  background:
+    linear-gradient(180deg, oklch(1 0 0), oklch(0.975 0.007 225));
+  box-shadow: 0 10px 24px oklch(0.26 0.04 245 / 0.07);
+}
+
+.section-head .system-label {
+  color: var(--primary-strong);
+}
+
+.drop-zone {
+  border-color: oklch(0.7 0.09 220);
+  background:
+    linear-gradient(135deg, oklch(0.95 0.018 218), oklch(0.985 0.006 230));
+}
+
+.tree-preview,
+.progress-box {
+  border-color: oklch(0.83 0.026 230);
+  background:
+    linear-gradient(180deg, oklch(1 0 0), oklch(0.965 0.01 225));
+}
+
+.scan-option {
+  min-height: 52px;
+  border-radius: 10px;
+}
+
+.scan-option.is-selected {
+  background:
+    linear-gradient(90deg, oklch(0.94 0.035 225), oklch(0.985 0.008 230));
+  box-shadow: inset 0 0 0 1px oklch(0.58 0.16 245 / 0.22);
+}
+
+.progress-track {
+  height: 12px;
+  background: oklch(0.86 0.016 230);
+}
+
+.report-ready {
+  border-color: oklch(0.75 0.11 155);
+  background:
+    linear-gradient(180deg, oklch(0.96 0.044 155), oklch(0.985 0.016 155));
+}
+
+/* Interaction motion layer */
+.capability-browser-rich::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    linear-gradient(115deg, transparent 0 34%, oklch(0.86 0.18 190 / 0.18) 42%, transparent 52% 100%);
+  mix-blend-mode: screen;
+  pointer-events: none;
+  transform: translateX(-42%);
+  animation: portal-scan-beam 7.5s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  z-index: 1;
+}
+
+.rule-grid span,
+.evidence-stack div,
+.matrix-panel div,
+.model-panel div {
+  position: relative;
+  overflow: hidden;
+}
+
+.rule-grid span::after,
+.evidence-stack div::after,
+.matrix-panel div::after,
+.model-panel div::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, oklch(0.86 0.17 190 / 0.18), transparent);
+  transform: translateX(-120%);
+  animation: tile-data-sweep 4.8s ease-out infinite;
+}
+
+.rule-grid span:nth-child(3n)::after,
+.evidence-stack div:nth-child(2n)::after,
+.matrix-panel div:nth-child(2n)::after,
+.model-panel div:nth-child(2n)::after {
+  animation-delay: 0.9s;
+}
+
+.drop-zone {
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.drop-zone::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background:
+    conic-gradient(from 180deg, transparent, oklch(0.76 0.16 195 / 0.58), transparent 34%, transparent 100%);
+  opacity: 0;
+  z-index: -1;
+  animation: upload-orbit 2.8s linear infinite;
+}
+
+.drop-zone.is-dragging::after,
+.is-uploading .drop-zone::after {
+  opacity: 1;
+}
+
+.is-uploading .drop-zone,
+.drop-zone.is-dragging {
+  box-shadow:
+    0 0 0 1px oklch(0.72 0.14 195 / 0.34),
+    0 18px 36px oklch(0.4 0.12 220 / 0.16);
+}
+
+.tree-row {
+  animation: tree-row-enter 360ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.tree-row:nth-child(2) { animation-delay: 24ms; }
+.tree-row:nth-child(3) { animation-delay: 48ms; }
+.tree-row:nth-child(4) { animation-delay: 72ms; }
+.tree-row:nth-child(5) { animation-delay: 96ms; }
+.tree-row:nth-child(6) { animation-delay: 120ms; }
+.tree-row:nth-child(7) { animation-delay: 144ms; }
+.tree-row:nth-child(8) { animation-delay: 168ms; }
+
+.progress-track span {
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-track span::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, oklch(1 0 0 / 0.52), transparent);
+  transform: translateX(-100%);
+}
+
+.is-scanning .progress-track span::after {
+  animation: progress-shimmer 1.15s linear infinite;
+}
+
+.is-scanning .scan-panel {
+  box-shadow:
+    0 14px 30px oklch(0.28 0.07 235 / 0.12),
+    0 0 0 1px oklch(0.68 0.14 205 / 0.18);
+}
+
+.scan-complete .report-ready {
+  animation: report-arrive 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes portal-scan-beam {
+  0%, 18% {
+    transform: translateX(-58%);
+    opacity: 0;
+  }
+  34% {
+    opacity: 0.9;
+  }
+  58%, 100% {
+    transform: translateX(58%);
+    opacity: 0;
+  }
+}
+
+@keyframes tile-data-sweep {
+  0%, 35% {
+    transform: translateX(-120%);
+    opacity: 0;
+  }
+  48% {
+    opacity: 1;
+  }
+  72%, 100% {
+    transform: translateX(120%);
+    opacity: 0;
+  }
+}
+
+@keyframes upload-orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes tree-row-enter {
+  from {
+    transform: translateY(8px);
+    opacity: 0;
+    filter: blur(4px);
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+@keyframes progress-shimmer {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes report-arrive {
+  from {
+    transform: translateY(10px) scale(0.985);
+    opacity: 0;
+    filter: blur(5px);
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+@media (max-width: 1180px) {
+  .capability-hud {
+    width: min(460px, 46%);
+  }
+
+  .rich-slide {
+    padding-right: 350px;
+  }
+
+  .scan-radar {
+    right: 24px;
+  }
+}
+
+@media (max-width: 980px) {
+  .capability-hud {
+    width: 100%;
+  }
+
+  .rich-slide {
+    padding-right: 0;
+  }
+
+  .scan-radar {
+    right: -104px;
+    top: 110px;
+    opacity: 0.26;
+  }
+
+  .path-control {
+    grid-template-columns: 1fr;
   }
 }

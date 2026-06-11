@@ -1,0 +1,2 @@
+# Sample Skill
+description: test
