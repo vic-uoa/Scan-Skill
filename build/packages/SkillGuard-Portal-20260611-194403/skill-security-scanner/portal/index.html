@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SkillGuard 扫描门户</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="login-screen" id="loginScreen">
+    <main class="login-panel login-panel-compact" aria-labelledby="loginTitle">
+      <div class="login-brand-row">
+        <div class="brand-mark" aria-hidden="true">SG</div>
+        <div>
+          <p class="system-label">SkillGuard Portal</p>
+          <h1 id="loginTitle">安全扫描入口</h1>
+        </div>
+      </div>
+      <p class="login-copy compact-copy">统一身份认证预留位。当前为静态门户预览。</p>
+      <button class="primary-action" id="enterPortal">进入门户</button>
+      <span class="auth-placeholder">Future SSO / OTP / Certificate</span>
+    </main>
+  </div>
+
+  <div class="app-shell is-hidden" id="appShell">
+    <aside class="side-nav" aria-label="主导航">
+      <div class="nav-brand">
+        <span class="brand-mark small">SG</span>
+        <div>
+          <strong>SkillGuard</strong>
+          <span>安全准入扫描</span>
+        </div>
+      </div>
+      <nav>
+        <a href="#home" class="nav-link is-active" data-route="home">扫描门户</a>
+        <a href="#report" class="nav-link" data-route="report">报告页预览</a>
+      </nav>
+      <div class="nav-footer">
+        <span>静态阶段</span>
+        <strong>本地预览</strong>
+      </div>
+    </aside>
+
+    <div class="workspace">
+      <header class="topbar">
+        <div>
+          <p class="system-label">Knowledge-base driven scan</p>
+          <h1>Skill 安全扫描门户</h1>
+        </div>
+        <div class="topbar-actions">
+          <button class="secondary-action utility-action" id="backToLogin"><span class="btn-icon lock-icon" aria-hidden="true"></span>登录占位</button>
+        </div>
+      </header>
+
+      <main class="page page-home" id="homePage">
+        <section class="hero-band capability-only" aria-labelledby="portalTitle">
+          <div class="capability-browser capability-browser-rich" aria-label="扫描知识库能力展示">
+            <div class="capability-header">
+              <div>
+                <p class="system-label">Security knowledge base</p>
+                <h2 id="portalTitle">扫描知识库能力</h2>
+                <p>把规则域、证据门槛、误报治理、整改建议和准入策略串成一次可追溯的扫描链路。</p>
+              </div>
+              <div class="capability-hud">
+                <div class="capability-command">
+                  <span>静态命令映射</span>
+                  <code>scan [path] --format html --output report.html</code>
+                </div>
+                <div class="capability-metrics" aria-label="规则库指标">
+                  <div><strong>14</strong><span>规则域</span></div>
+                  <div><strong>4</strong><span>知识层</span></div>
+                  <div><strong>3</strong><span>报告形态</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="capability-tabs" role="tablist">
+              <button class="cap-tab is-active" data-slide="0" role="tab">规则地图</button>
+              <button class="cap-tab" data-slide="1" role="tab">证据门槛</button>
+              <button class="cap-tab" data-slide="2" role="tab">误报治理</button>
+              <button class="cap-tab" data-slide="3" role="tab">AI 建议</button>
+              <button class="cap-tab" data-slide="4" role="tab">报告准入</button>
+            </div>
+
+            <div class="capability-stage rich-stage">
+              <div class="signal-field" aria-hidden="true">
+                <span></span><span></span><span></span><span></span>
+              </div>
+              <div class="scan-radar" aria-hidden="true">
+                <span class="radar-axis"></span>
+                <span class="radar-sweep"></span>
+                <b>rule</b>
+                <b>evidence</b>
+                <b>report</b>
+              </div>
+
+              <article class="cap-slide rich-slide is-active">
+                <div class="slide-copy">
+                  <span class="cap-index">01</span>
+                  <h3>规则域索引</h3>
+                  <p>规则库覆盖 Agent Skill 的文件边界、外联、命令执行、供应链、认证密钥、金融个人信息、生产误用、数据库变更、API 安全、报告日志和治理字段。</p>
+                </div>
+                <div class="rule-grid" aria-label="规则域">
+                  <span>FILE*</span><span>NET*</span><span>CMD*</span><span>SUPPLY*</span>
+                  <span>AUTH*</span><span>DATA*</span><span>ENV*</span><span>DB*</span>
+                  <span>APISEC*</span><span>REPORT*</span><span>AGENT*</span><span>META*</span>
+                  <em>覆盖本地文件、网络外联、执行入口、金融数据、报告泄露和 Agent 治理边界</em>
+                </div>
+              </article>
+
+              <article class="cap-slide rich-slide">
+                <div class="slide-copy">
+                  <span class="cap-index">02</span>
+                  <h3>证据门槛</h3>
+                  <p>扫描不会只靠关键词命中。每个风险域都带最低证据要求，结合文件角色、上下文窗口、执行语义和真实路径判断是否进入最终报告。</p>
+                </div>
+                <div class="evidence-stack" aria-label="证据链">
+                  <div><strong>召回</strong><span>候选 finding</span></div>
+                  <div><strong>上下文</strong><span>文件角色 / 语句类型</span></div>
+                  <div><strong>确认</strong><span>confirmed / probable</span></div>
+                  <div><strong>准入</strong><span>review / blocked</span></div>
+                  <em>每条命中都会保留 rule_domain、evidence_gate、source_type 和 admission_policy。</em>
+                </div>
+              </article>
+
+              <article class="cap-slide rich-slide">
+                <div class="slide-copy">
+                  <span class="cap-index">03</span>
+                  <h3>误报治理</h3>
+                  <p>内置误报类型库会区分安全需求、示例文本、占位符、报告样本和真实实现风险，支持降级、过滤和复核沉淀。</p>
+                </div>
+                <div class="matrix-panel" aria-label="治理矩阵">
+                  <div><span>placeholder</span><strong>过滤</strong></div>
+                  <div><span>requirement doc</span><strong>降级</strong></div>
+                  <div><span>implementation</span><strong>保留</strong></div>
+                  <div><span>needs review</span><strong>复核</strong></div>
+                  <em>复核结论可沉淀为误报样本、规则门槛和整改族调整。</em>
+                </div>
+              </article>
+
+              <article class="cap-slide rich-slide">
+                <div class="slide-copy">
+                  <span class="cap-index">04</span>
+                  <h3>AI 辅助整改</h3>
+                  <p>AI 模式对齐原有 LLM 配置：endpoint、model、api key、temperature、max tokens、batch size、组织约束和可选请求体 JSON。</p>
+                </div>
+                <div class="model-panel" aria-label="AI 配置摘要">
+                  <div><span>endpoint</span><strong>OpenAI-compatible</strong></div>
+                  <div><span>temperature</span><strong>0.2</strong></div>
+                  <div><span>max tokens</span><strong>900</strong></div>
+                  <div><span>policy</span><strong>脱敏 / 沙箱 / mock</strong></div>
+                  <em>AI 只参与整改建议表达，不参与风险等级、误报过滤和准入结论计算。</em>
+                </div>
+              </article>
+
+              <article class="cap-slide rich-slide">
+                <div class="slide-copy">
+                  <span class="cap-index">05</span>
+                  <h3>报告与准入</h3>
+                  <p>输出 HTML、PDF、JSON，区分用户报告、维护者复核报告和 AI 整改报告。准入结论聚合为通过、带提醒通过、需要复核或阻断。</p>
+                </div>
+                <div class="report-pipeline" aria-label="报告链路">
+                  <span>scan</span><i></i><span>score</span><i></i><span>report</span><i></i><span>admission</span>
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="work-grid" aria-label="扫描工作台">
+          <div class="upload-panel">
+            <div class="section-head">
+              <div>
+                <p class="system-label">Upload preview</p>
+                <h2>上传与结构预览</h2>
+              </div>
+              <span class="status-pill ok" id="skillStatus">发现 SKILL.md</span>
+            </div>
+            <label class="drop-zone" id="dropZone">
+              <input type="file" id="folderPicker" webkitdirectory directory multiple>
+              <span class="drop-icon" aria-hidden="true"></span>
+              <strong>拖拽文件夹到这里，或选择本地目录</strong>
+              <small>选择后自动生成文件树，并上传到服务端临时扫描工作区。</small>
+            </label>
+            <div class="local-path-panel">
+              <label for="localPathInput">当前扫描对象</label>
+              <div class="path-control">
+                <input id="localPathInput" type="text" value="" placeholder="上传文件夹后自动生成扫描工作区" readonly>
+              </div>
+              <small id="backendStatus">启动 Portal 服务后，选择目录会上传到临时扫描工作区。</small>
+            </div>
+            <div class="tree-preview" aria-label="文件结构预览">
+              <div class="tree-row root">skills/customer-risk-check</div>
+              <div class="tree-row child required">SKILL.md</div>
+              <div class="tree-row child">scripts/run.py</div>
+              <div class="tree-row child">references/security-requirements.md</div>
+              <div class="tree-row child">security-analysis/report.json</div>
+              <div class="tree-row child muted">node_modules/ 已排除</div>
+            </div>
+          </div>
+
+          <div class="scan-panel">
+            <div class="section-head">
+              <div>
+                <p class="system-label">Scan actions</p>
+                <h2>扫描入口</h2>
+              </div>
+              <button class="ghost-action compact config-action" id="openAiConfigInline"><span class="btn-icon tune-icon" aria-hidden="true"></span>AI 配置</button>
+            </div>
+            <div class="scan-options" role="group" aria-label="扫描模式">
+              <button class="scan-option is-selected" data-scan="user">
+                <span>用户扫描</span>
+                <small>静态规则库 + 普通报告</small>
+              </button>
+              <button class="scan-option" data-scan="ai">
+                <span>用户 + AI 扫描</span>
+                <small>追加 `--LLM`，生成整改建议</small>
+              </button>
+            </div>
+            <fieldset class="format-choice">
+              <legend>报告格式</legend>
+              <label><input type="radio" name="format" value="html" checked> HTML</label>
+              <label><input type="radio" name="format" value="pdf"> PDF</label>
+              <label><input type="radio" name="format" value="json"> JSON</label>
+            </fieldset>
+            <div class="progress-box">
+              <div class="progress-meta">
+                <span id="scanState">等待扫描</span>
+                <strong id="scanPercent">0%</strong>
+              </div>
+              <div class="progress-track"><span id="progressBar"></span></div>
+              <p id="scanHint">准备完成后，可点击下方按钮查看静态完成态。</p>
+            </div>
+            <div class="action-row">
+              <button class="primary-action scan-action" id="runScan"><span class="btn-icon scan-icon" aria-hidden="true"></span>开始扫描</button>
+              <button class="secondary-action utility-action" id="completeScan"><span class="btn-icon report-icon" aria-hidden="true"></span>查看完成态</button>
+            </div>
+            <div class="report-ready is-hidden" id="reportReady">
+              <strong>扫描完成：发现 3 个阻断项，2 个需复核项</strong>
+              <div>
+                <a href="#report" data-route-jump="report">进入报告页</a>
+                <a href="../reports/static-report-user.html" id="downloadHtml">下载 HTML 报告</a>
+                <a href="#" id="downloadPdf">下载 PDF</a>
+                <a href="#" id="downloadJson">下载 JSON</a>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <main class="page page-report is-hidden" id="reportPage">
+        <section class="report-hero">
+          <div>
+            <p class="system-label">报告预览</p>
+            <h2>扫描报告完成态</h2>
+            <p>这里保持初始预览态，只展示报告生成后的大致状态。真实扫描完成后，可从完成态直接打开或下载生成的 HTML / PDF / JSON 报告。</p>
+          </div>
+          <div class="report-verdict">
+            <span>准入结论</span>
+            <strong>需整改后复核</strong>
+          </div>
+        </section>
+        <section class="report-grid">
+          <article>
+            <span class="metric-label">整体风险</span>
+            <strong class="risk-text high">高危</strong>
+          </article>
+          <article>
+            <span class="metric-label">问题数量</span>
+            <strong>12</strong>
+          </article>
+          <article>
+            <span class="metric-label">阻断项</span>
+            <strong>3</strong>
+          </article>
+          <article>
+            <span class="metric-label">Skill 数</span>
+            <strong>1</strong>
+          </article>
+        </section>
+        <section class="finding-table" aria-label="报告预览表">
+          <div class="table-row table-head">
+            <span>级别</span><span>规则</span><span>位置</span><span>准入影响</span>
+          </div>
+          <div class="table-row">
+            <span class="severity critical">严重</span><span>命令执行风险</span><span>scripts/run.py:28</span><span>阻断</span>
+          </div>
+          <div class="table-row">
+            <span class="severity high">高危</span><span>敏感数据外传</span><span>SKILL.md:42</span><span>阻断</span>
+          </div>
+          <div class="table-row">
+            <span class="severity medium">中危</span><span>治理字段缺失</span><span>SKILL.md</span><span>复核</span>
+          </div>
+        </section>
+        <div class="action-row report-actions">
+          <a class="primary-link scan-action" id="openGeneratedReport" href="../reports/static-report-user.html" target="_blank" rel="noopener noreferrer"><span class="btn-icon report-icon" aria-hidden="true"></span>打开生成的 HTML 报告</a>
+          <a class="secondary-link utility-action" href="#home" data-route-jump="home">返回扫描门户</a>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <dialog class="ai-dialog" id="aiDialog" aria-labelledby="aiDialogTitle">
+    <form method="dialog">
+      <div class="dialog-head">
+        <div>
+          <p class="system-label">AI remediation config</p>
+          <h2 id="aiDialogTitle">AI 模型配置</h2>
+        </div>
+        <button class="icon-button" value="cancel" aria-label="关闭">×</button>
+      </div>
+      <div class="dialog-grid">
+        <label>
+          <span>模型配置链接</span>
+          <input id="aiEndpoint" type="url" value="https://api.openai.com/v1/chat/completions">
+        </label>
+        <label>
+          <span>模型名称</span>
+          <input id="aiModel" type="text" value="gpt-4.1-mini">
+        </label>
+        <label>
+          <span>API Key</span>
+          <input id="aiApiKey" type="password" value="">
+        </label>
+        <label>
+          <span>Temperature</span>
+          <input id="aiTemperature" type="number" min="0" max="2" step="0.1" value="0.2">
+        </label>
+        <label>
+          <span>Max tokens</span>
+          <input id="aiMaxTokens" type="number" min="100" step="50" value="900">
+        </label>
+        <label>
+          <span>Batch size</span>
+          <input type="number" min="1" max="5" value="1">
+        </label>
+      </div>
+      <label class="full-field">
+        <span>组织约束</span>
+        <textarea id="aiPolicy" rows="3">禁止连接生产环境；所有报告必须脱敏；修复示例必须使用测试环境变量、mock 服务或沙箱配置。</textarea>
+      </label>
+      <label class="full-field">
+        <span>可选请求体 JSON</span>
+        <textarea id="aiRequestBody" rows="4" placeholder='{"top_p":0.8,"response_format":{"type":"text"}}'></textarea>
+      </label>
+      <div class="switch-row">
+        <label><input id="aiTestConnection" type="checkbox" checked> 扫描前测试连接</label>
+        <label><input id="aiSaveLocal" type="checkbox" checked> 保存到本地配置</label>
+        <label><input id="aiSuggestOnly" type="checkbox"> 仅生成建议，不写入报告</label>
+      </div>
+      <p class="dialog-status" id="aiDialogStatus">保存配置后会按开关执行模型连接测试。</p>
+      <div class="dialog-actions">
+        <button class="secondary-action utility-action" value="cancel">取消</button>
+        <button class="primary-action scan-action" value="default"><span class="btn-icon tune-icon" aria-hidden="true"></span>测试连接并保存</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+{
+  "summary": "贷款审批风险分析演示报告",
+  "auth_info": "系统认证（用户ID：80231522，柜员号：TELLER001）",
+  "users": ["80231522", "TELLER001"],
+  "api_list": [
+    {
+      "api_name": "贷款审批",
+      "api_url": "https://loan-prod.example.internal/api/loan/approve",
+      "request_body": "{\"loanOrderId\":\"LN202604300001\",\"amount\":\"500000\",\"currency\":\"CNY\"}"
+    }
+  ],
+  "file_upload_context": {
+    "detected": true,
+    "upload_urls": ["https://loan-prod.example.internal/api/attachment/upload"],
+    "constraints": "未限制任意文件类型，可使用原文件名保存到 web目录"
+  },
+  "trade_context": "放款交易无唯一交易号，无幂等控制，金额可改，且无二次认证。"
+}

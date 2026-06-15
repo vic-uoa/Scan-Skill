@@ -36,7 +36,6 @@ SkillGuard 结合了两个方向：
 │   └── skillguard.jar                # 构建后的可执行 Jar
 ├── src/main/java/com/skillguard/
 │   ├── SkillGuardCli.java            # CLI 入口
-│   ├── PortalServer.java             # 门户 HTTP 服务、上传、扫描任务和报告下载接口
 │   ├── SkillScanner.java             # 扫描流程与 Skill 识别
 │   ├── BuiltinRules.java             # 内置规则库
 │   ├── ReportWriter.java             # console/json/html/pdf 报告生成
@@ -49,15 +48,6 @@ SkillGuard 结合了两个方向：
 │   ├── LlmConfigDialog.java          # LLM 可视化配置窗口
 │   ├── LlmClient.java                # OpenAI-compatible 模型调用
 │   └── LlmRemediationService.java    # AI 个性化整改建议生成
-├── skill-security-scanner/
-│   ├── portal/
-│   │   ├── index.html                # 门户页面、登录占位、上传区、扫描区、报告页
-│   │   ├── app.js                    # 门户交互、文件夹上传、AI 配置、扫描轮询
-│   │   └── styles.css                # 门户视觉样式、响应式布局和动效
-│   ├── rules/                        # 安全知识库、误报类型、整改建议、准入策略材料
-│   ├── config/
-│   │   └── ai-remediation-config.example.json
-│   └── bin/skillguard.jar            # Skill 包内置 Jar，同步自 dist/skillguard.jar
 └── examples/skills/                  # 示例 Skill
 ```
 
@@ -99,23 +89,10 @@ java -jar dist\skillguard.jar scan .\skills
 java -jar dist\skillguard.jar scan examples\skills
 ```
 
-启动本地门户：
-
-```powershell
-java -jar dist\skillguard.jar portal --port 8765
-```
-
-启动后访问：
-
-```text
-http://127.0.0.1:8765/
-```
-
 ## 命令说明
 
 ```text
 java -jar dist\skillguard.jar scan [path] [options]
-java -jar dist\skillguard.jar portal [options]
 ```
 
 参数：
@@ -130,13 +107,6 @@ java -jar dist\skillguard.jar portal [options]
 | `--LLM` / `--llm` | AI 个性化整改建议模式。扫描前弹出模型配置窗口，连接成功后才继续生成报告 |
 | `-h, --help` | 查看帮助 |
 
-门户参数：
-
-| 参数 | 说明 |
-|:---|:---|
-| `--host HOST` | 可选。门户监听地址，默认 `127.0.0.1`。容器或内网服务化部署时通常使用 `0.0.0.0` |
-| `--port PORT` | 可选。门户监听端口，默认 `8765` |
-
 示例：
 
 ```powershell
@@ -147,61 +117,9 @@ java -jar dist\skillguard.jar scan .\skills --fail-on high
 java -jar dist\skillguard.jar scan .\skills --format html --output report-review.html --review
 java -jar dist\skillguard.jar scan .\skills --format html --output report-ai.html --LLM
 java -jar dist\skillguard.jar scan .\skills --format html --output report-ai-review.html --LLM --review
-java -jar dist\skillguard.jar portal --port 8765
-java -jar dist\skillguard.jar portal --host 0.0.0.0 --port 8765
 ```
 
 注意：PDF 是文件格式，必须通过 `--output` 指定输出路径。
-
-## 门户模式
-
-门户模式用于把本地静态扫描能力服务化成一个可访问的 Web 入口。它仍然复用同一个 `dist/skillguard.jar`、同一套扫描规则、同一套 HTML/PDF/JSON 报告生成逻辑；区别只是把“命令行传入路径”改为“页面上传文件夹后由后端写入临时扫描工作区”。因此门户适合给非命令行用户试用，也适合后续接入行内容器、统一鉴权、Skill 准入平台或审计平台。
-
-### 启动门户
-
-本地单机调试：
-
-```powershell
-java -jar dist\skillguard.jar portal --port 8765
-```
-
-容器或内网服务化部署：
-
-```powershell
-java -jar dist\skillguard.jar portal --host 0.0.0.0 --port 8765
-```
-
-浏览器访问：
-
-```text
-http://127.0.0.1:8765/
-```
-
-### 门户功能
-
-- 登录页当前只是占位，不做真实鉴权；后续行内接入时可从 `skill-security-scanner/portal/index.html` 的登录区和 `src/main/java/com/skillguard/PortalServer.java` 的请求入口加统一登录、Token 校验或网关头校验。
-- 首页提供扫描知识库能力展示、文件夹上传/拖拽、文件结构树预览、扫描入口、AI 配置弹窗、进度状态和报告完成态。
-- 上传文件夹后，前端会把目录内容上传到后端临时工作区，后续扫描基于这份上传副本执行，不依赖用户本机绝对路径，便于容器化和多人复用。
-- 扫描入口保留“用户扫描”和“用户 + AI 扫描”。普通扫描只走静态规则；AI 扫描会在已连接模型配置后生成个性化整改建议，但不改变风险等级、准入结论和误报过滤结果。
-- 报告格式支持 HTML、PDF、JSON。完成后页面提供报告页预览入口和下载链接；下载会以附件方式保存到本地，不覆盖当前门户页面。
-
-### 门户接口与运行目录
-
-门户服务主要由 `PortalServer.java` 提供，前端由 `skill-security-scanner/portal/app.js` 调用接口。运行时会使用以下本地目录：
-
-| 目录 | 用途 |
-|:---|:---|
-| `build/portal-uploads/` | 保存页面上传的临时 Skill 文件夹副本 |
-| `build/portal-reports/` | 保存门户扫描生成的 HTML/PDF/JSON 报告 |
-| `skill-security-scanner/config/llm-config.json` | 保存本地 AI 模型配置，打包交付时建议排除 |
-
-这些目录属于运行期数据，不建议提交到代码仓库。若部署到容器，可把 `build/portal-reports/` 挂载为持久化目录，便于下载和审计留痕。
-
-### AI 配置
-
-门户中的 AI 配置不跳转外部页面，而是在弹窗内填写 OpenAI-compatible 模型参数，包括 API 地址、模型名称、API Key、temperature、max tokens、组织约束、请求体扩展 JSON、是否保存本地配置、是否测试连接等。点击保存时，门户会返回连接状态；连接成功后窗口不会强制关闭，方便用户确认配置。
-
-生产环境接入时建议把模型网关地址、鉴权方式、日志留存和数据脱敏策略放在服务端统一管理，不要把真实 Key 固化到前端代码或交付包中。
 
 ## 报告模式
 
@@ -773,12 +691,6 @@ java -jar dist\skillguard.jar scan .\skills --format json --output report.json
 
 # CI 门禁
 java -jar dist\skillguard.jar scan .\skills --fail-on high
-
-# 启动本地门户
-java -jar dist\skillguard.jar portal --port 8765
-
-# 容器或内网服务化启动
-java -jar dist\skillguard.jar portal --host 0.0.0.0 --port 8765
 ```
 
 ## 无控制台 LLM 启动

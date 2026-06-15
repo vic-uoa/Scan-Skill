@@ -1,0 +1,98 @@
+{
+  "document": {
+    "filename": "技术特性需求说明书.md",
+    "format": "Markdown",
+    "extracted_text_length": 3058,
+    "summary": "文档描述了文件上传功能统一改造和接口越权防护功能改造的技术需求，包括分片上传、断点续传、水平越权防护、垂直越权防护等功能。"
+  },
+  "analysis": {
+    "total_requirements_matched": 5,
+    "high_confidence": 5,
+    "medium_confidence": 0,
+    "low_confidence": 0
+  },
+  "matched_requirements": [
+    {
+      "id": 10,
+      "name": "客户端应保护认证信息并禁用不必要的配置及组件以增强安全",
+      "confidence": "high",
+      "evidence": "服务端进行文件类型与内容安全校验，防止恶意文件上传。",
+      "design": "检查上传文件类型和大小，上传文件存放在web应用范围之外，上传路径需过滤特殊字符。"
+    },
+    {
+      "id": 11,
+      "name": "文件上传防范任意文件上传造成的各类攻击",
+      "confidence": "high",
+      "evidence": "服务端进行文件类型与内容安全校验，防止恶意文件上传。",
+      "design": "检查上传文件类型和大小，判断是否为可执行文件，上传文件存放web应用范围之外，禁止任何文件执行。"
+    },
+    {
+      "id": 15,
+      "name": "角色权限管理应防范水平越权和其他越权行为",
+      "confidence": "high",
+      "evidence": "服务端基于当前登录用户身份对请求资源归属进行强制校验，防止水平越权；服务端基于用户角色对接口功能权限进行校验，防止垂直越权。",
+      "design": "账号登录的用户角色验证和授权机制必须在服务器端有效，确保只有经过授权的用户才能访问相应功能。"
+    },
+    {
+      "id": 58,
+      "name": "API输入应该严格校验数据及其来源的合法性",
+      "confidence": "high",
+      "evidence": "所有业务接口统一接入鉴权中间件，强制校验调用方身份与权限。",
+      "design": "应严格检查输入数据的格式、类型、长度、范围等要素，对非预期的数据进行拒绝，使用白名单或黑名单方式验证。"
+    },
+    {
+      "id": 59,
+      "name": "API需要有访问控制策略，包括认证、会话管理等",
+      "confidence": "high",
+      "evidence": "所有业务接口统一接入鉴权中间件，强制校验调用方身份与权限。",
+      "design": "实施接口访问控制策略，对敏感数据和功能的访问实施控制，对需授权访问的API严格认证调用方身份。"
+    }
+  ],
+  "unmatched_note": "以下安全领域在文档中未发现相关内容：数据采集与存储安全、日志与审计安全、通信传输安全、用户认证安全、支付安全、业务逻辑安全、移动端安全、密钥管理。",
+  "file_upload_context": {
+    "detected": true,
+    "upload_urls": [
+      "http://fbn-view-pc.paasst.cmbchina.cn/sy/attachment/fileUpload.action"
+    ],
+    "tech_stack": "未知",
+    "auth_info": "用户994001",
+    "file_field": "file",
+    "constraints": "文档未明确描述文件类型与大小限制",
+    "matched_upload_requirements": [
+      10,
+      11
+    ]
+  },
+  "access_control_context": {
+    "detected": true,
+    "api_list": [
+      {
+        "api_name": "SLA事件管理-搜索",
+        "api_url": "https://sla-front.paas.cmbchina.cn/dev-api/api/event/deal/event/list",
+        "request_params": "guaranteeName=&status=&category=&draw=1&length=10&bbkId=&delayDateStart=&delayDateEnd="
+      },
+      {
+        "api_name": "SLA事件管理-查看详情",
+        "api_url": "https://sla-front.paas.cmbchina.cn/dev-api/api/event/deal/event/info",
+        "request_params": "?eventId=20362568"
+      },
+      {
+        "api_name": "SLA事件管理-事件处理",
+        "api_url": "https://sla-front.paas.cmbchina.cn/dev-api/api/event/deal/event/task/push",
+        "request_body": "{\"taskIds\":[24],\"eventId\":\"84176150\"}"
+      }
+    ],
+    "tech_stack": "Java",
+    "auth_info": "系统认证（用户ID：80231522，01174498，80370132）",
+    "users": [
+      "80231522",
+      "01174498",
+      "80370132"
+    ],
+    "matched_access_control_requirements": [
+      15,
+      58,
+      59
+    ]
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "endpoint": "https://api.openai.com/v1/chat/completions",
+  "model": "gpt-4.1-mini",
+  "apiKey": "fill-in-local-browser-only",
+  "temperature": 0.2,
+  "maxTokens": 900,
+  "batchSize": 1,
+  "orgPolicy": "禁止连接生产环境；所有报告必须脱敏；修复示例必须使用测试环境变量、mock 服务或沙箱配置。"
+}

@@ -1,0 +1,13 @@
+# Java build output
+build/classes/
+
+# Temporary validation reports
+build/tmp-*.html
+build/tmp-*.json
+
+# Local IDE and OS files
+.idea/
+.vscode/
+*.iml
+Thumbs.db
+.DS_Store

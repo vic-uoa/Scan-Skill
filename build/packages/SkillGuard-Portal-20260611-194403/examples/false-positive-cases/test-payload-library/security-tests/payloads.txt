@@ -1,0 +1,11 @@
+# Authorized security payload samples
+
+These payloads are inert test data and must not be treated as active attacks:
+
+- `<script>alert(1)</script>`
+- `' OR 1=1 --`
+- `../../../../etc/passwd`
+- `; whoami`
+- `sqlmap --risk 1 --level 1`
+- `http://169.254.169.254/latest/meta-data/`
+

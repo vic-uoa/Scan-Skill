@@ -1,0 +1,12 @@
+case_id,skill_name,rule_id,file_role,statement_type,location,evidence,false_positive_type,expected_decision,maintainer_note
+FP-REQ-001,security-requirement-doc,NORM-AUTH001,SECURITY_REQUIREMENT,markdown_table,references/security-requirements.md,"Passwords must not use 123456/admin/default credentials",文档型正向规范误报,false_positive,安全需求说明不是弱口令实现
+FP-PAYLOAD-001,test-payload-library,APISEC004,TEST_CASE,markdown_list,security-tests/payloads.txt,"<script>alert(1)</script>",测试 Payload 误报,false_positive,授权测试 payload 样例不进入最终报告
+FP-REPORT-001,report-placeholder,REPORT003,ANALYSIS_REPORT,report_context_field,security-analysis/report.json,"Bearer <token>",占位符/脱敏样例误报,false_positive,报告占位符不是真实认证上下文
+FP-FIX-001,safe-fix-example,NORM-INPUT002,SECURITY_REQUIREMENT,requirement_text,docs/safe-remediation.md,"escape </script> and call escapeHtml",安全实现或缓解措施误报,false_positive,修复建议不应被当作 XSS 实现漏洞
+FP-CODE-001,contextual-code-noise,AUTH002,IMPLEMENTATION,plain_text,scripts/context_noise.py,"Authorization header built from runtime access_token",上下文处理/鉴权头拼接误报,false_positive,运行时鉴权头拼接不是 token 泄露
+FP-CODE-002,contextual-code-noise,FILE001,IMPLEMENTATION,assignment,scripts/context_noise.py,"os.environ.get('ID_TOKEN')",环境变量/配置读取误报,false_positive,环境变量读取不等于敏感本地凭据文件访问
+FP-CODE-003,contextual-code-noise,FILE001,IMPLEMENTATION,plain_text,scripts/context_noise.py,"entry.key / secretKeyRef.key parser logic",扫描器或配置解析逻辑误报,false_positive,key 字段名和配置解析逻辑不是凭据文件读取
+FP-CODE-004,contextual-code-noise,AUTH001,IMPLEMENTATION,assignment,scripts/context_noise.py,"postgresql://{user}:{password}@{host}",占位符/模板凭据误报,false_positive,连接串模板不包含真实账号密码
+FP-CODE-005,contextual-code-noise,DATA001,IMPLEMENTATION,plain_text,scripts/context_noise.py,"comment: 交易流水",通用业务标签误报,false_positive,业务字段标签不等于真实客户数据或生产导出
+FP-CODE-006,contextual-code-noise,AUTH001,IMPLEMENTATION,assignment,scripts/context_noise.py,"mssql+pyodbc://{args.user}:{args.password}@{config.host}",运行时参数连接串误报,false_positive,运行时参数拼接连接串不等于硬编码真实凭据
+FP-CODE-007,contextual-code-noise,AUTH002,IMPLEMENTATION,plain_text,scripts/context_noise.py,"re.compile access_token/password detector patterns",扫描器/规则检测逻辑误报,false_positive,规则引擎识别 token/password 的正则不等于真实 token/password 泄露
